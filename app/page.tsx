@@ -344,9 +344,21 @@ function GallerySlide() {
     { src: "/images/gym-tatame.jpeg", title: "Áreas Funcionais" }
   ]
 
+  const [isMobileOrTablet, setIsMobileOrTablet] = useState(false)
+  const [galleryIndex, setGalleryIndex] = useState(0)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileOrTablet(window.innerWidth < 1024)
+    }
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
   return (
-    <div className="h-full w-full flex items-center bg-background py-10 lg:py-0 overflow-y-auto perspective-1000">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
+    <div className="h-full w-full flex items-center bg-background py-10 lg:py-0 overflow-hidden perspective-1000">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10 flex flex-col justify-center max-w-5xl h-full">
         <motion.div
           initial="hidden"
           animate="visible"
@@ -367,40 +379,108 @@ function GallerySlide() {
           </motion.h2>
         </motion.div>
 
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={staggerContainer}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-5xl mx-auto"
-          style={{ transformStyle: "preserve-3d" }}
-        >
-          {images.map((image, i) => (
-            <motion.div
-              key={i}
-              variants={parallaxItem}
-              whileHover={{ 
-                scale: 1.05, 
-                rotateY: i === 1 ? 0 : (i === 0 ? 5 : -5),
-                z: 30
-              }}
-              transition={{ duration: 0.4 }}
-              className="relative aspect-[4/3] sm:aspect-[3/4] rounded-lg sm:rounded-xl overflow-hidden shadow-lg group"
-              style={{ transformStyle: "preserve-3d" }}
+        {isMobileOrTablet ? (
+          <div className="relative w-full max-w-lg mx-auto px-6">
+            {/* Left Button */}
+            <button
+              onClick={() => setGalleryIndex((prev) => Math.max(0, prev - 1))}
+              disabled={galleryIndex === 0}
+              className={`absolute left-[-12px] top-1/2 -translate-y-1/2 z-20 bg-primary hover:bg-primary/95 text-primary-foreground shadow-lg hover:scale-105 transition-all rounded-full w-9 h-9 flex items-center justify-center border border-white/10 ${
+                galleryIndex === 0 ? "opacity-30 cursor-not-allowed" : "opacity-100"
+              }`}
+              aria-label="Anterior"
             >
-              <Image
-                src={image.src}
-                alt={image.title}
-                fill
-                className="object-cover group-hover:scale-110 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4">
-                <span className="text-white/70 text-[8px] sm:text-xs font-medium uppercase tracking-widest">0{i + 1}</span>
-                <h3 className="text-white text-xs sm:text-base md:text-lg font-bold mt-0.5">{image.title}</h3>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+
+            {/* Slider view */}
+            <div className="overflow-hidden py-2">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={galleryIndex}
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -30 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-xl"
+                >
+                  <Image
+                    src={images[galleryIndex].src}
+                    alt={images[galleryIndex].title}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-foreground/75 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <span className="text-white/70 text-[10px] font-medium uppercase tracking-widest">0{galleryIndex + 1}</span>
+                    <h3 className="text-white text-sm sm:text-base font-bold mt-0.5">{images[galleryIndex].title}</h3>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Right Button */}
+            <button
+              onClick={() => setGalleryIndex((prev) => Math.min(images.length - 1, prev + 1))}
+              disabled={galleryIndex === images.length - 1}
+              className={`absolute right-[-12px] top-1/2 -translate-y-1/2 z-20 bg-primary hover:bg-primary/95 text-primary-foreground shadow-lg hover:scale-105 transition-all rounded-full w-9 h-9 flex items-center justify-center border border-white/10 ${
+                galleryIndex === images.length - 1 ? "opacity-30 cursor-not-allowed" : "opacity-100"
+              }`}
+              aria-label="Próximo"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+
+            {/* Dots */}
+            <div className="flex justify-center gap-2 mt-4">
+              {images.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setGalleryIndex(idx)}
+                  className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                    galleryIndex === idx ? "bg-primary w-4" : "bg-foreground/30"
+                  }`}
+                  aria-label={`Página ${idx + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={staggerContainer}
+            className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-5xl mx-auto"
+            style={{ transformStyle: "preserve-3d" }}
+          >
+            {images.map((image, i) => (
+              <motion.div
+                key={i}
+                variants={parallaxItem}
+                whileHover={{ 
+                  scale: 1.05, 
+                  rotateY: i === 1 ? 0 : (i === 0 ? 5 : -5),
+                  z: 30
+                }}
+                transition={{ duration: 0.4 }}
+                className="relative aspect-[4/3] sm:aspect-[3/4] rounded-lg sm:rounded-xl overflow-hidden shadow-lg group"
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                <Image
+                  src={image.src}
+                  alt={image.title}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-transparent to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4">
+                  <span className="text-white/70 text-[8px] sm:text-xs font-medium uppercase tracking-widest">0{i + 1}</span>
+                  <h3 className="text-white text-xs sm:text-base md:text-lg font-bold mt-0.5">{image.title}</h3>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
       </div>
     </div>
   )
@@ -654,14 +734,50 @@ function ProductsSlide() {
     }
   ]
 
+  const [cardsPerPage, setCardsPerPage] = useState(3)
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  useEffect(() => {
+    const handleResize = () => {
+      let perPage = 3
+      if (window.innerWidth < 768) {
+        perPage = 1
+      } else if (window.innerWidth < 1024) {
+        perPage = 2
+      }
+      setCardsPerPage(perPage)
+      setCurrentIndex((prev) => Math.max(0, Math.min(products.length - perPage, prev)))
+    }
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [products.length])
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => Math.max(0, prev - cardsPerPage))
+  }
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => Math.min(products.length - cardsPerPage, prev + cardsPerPage))
+  }
+
+  const totalPages = Math.ceil(products.length / cardsPerPage)
+  const currentPageIndex = Math.floor(currentIndex / cardsPerPage)
+
+  const goToPage = (pageIndex: number) => {
+    setCurrentIndex(Math.min(products.length - cardsPerPage, pageIndex * cardsPerPage))
+  }
+
   return (
-    <div className="h-full w-full flex items-start lg:items-center bg-muted py-16 sm:py-20 lg:py-8 overflow-y-auto perspective-1000">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
+    <div className="h-full w-full flex items-center bg-muted py-8 overflow-hidden relative">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10 flex flex-col h-full justify-center max-w-7xl">
+        
+        {/* Header Section */}
         <motion.div
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
-          className="text-center mb-4 sm:mb-6 md:mb-8"
+          className="text-center mb-4 sm:mb-6"
         >
           <motion.span 
             variants={fadeInUp}
@@ -677,54 +793,98 @@ function ProductsSlide() {
           </motion.h2>
           <motion.p 
             variants={fadeInUp}
-            className="mt-2 text-muted-foreground text-xs sm:text-sm max-w-xl mx-auto"
+            className="mt-2 text-muted-foreground text-xs sm:text-sm max-w-xl mx-auto hidden sm:block"
           >
             Utilizamos e fornecemos produtos profissionais de alta eficácia para garantir a máxima higiene e proteção dos ambientes.
           </motion.p>
         </motion.div>
 
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={staggerContainer}
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 max-w-6xl mx-auto"
-          style={{ transformStyle: "preserve-3d" }}
-        >
-          {products.map((prod, i) => (
-            <motion.div
-              key={i}
-              variants={parallaxItem}
-              whileHover={{ 
-                scale: 1.03, 
-                rotateY: 2,
-                z: 10,
-                transition: { duration: 0.3 }
-              }}
-              className="group bg-card rounded-lg sm:rounded-xl p-2.5 sm:p-4 shadow-sm hover:shadow-lg transition-all duration-300 border border-border/50 flex flex-col justify-between"
-              style={{ transformStyle: "preserve-3d" }}
-            >
-              <div>
-                <div className="relative aspect-[3/4] sm:aspect-square w-full rounded-lg overflow-hidden bg-muted/40 p-2 flex items-center justify-center">
-                  <Image
-                    src={prod.src}
-                    alt={prod.title}
-                    fill
-                    className="object-contain p-1 group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <span className="text-[7px] sm:text-[9px] uppercase tracking-wider bg-primary/10 text-primary px-1.5 py-0.5 rounded mx-auto mt-2.5 block w-max font-semibold">
-                  {prod.badge}
-                </span>
-                <h3 className="text-[11px] sm:text-xs md:text-sm font-bold text-foreground mt-2 text-center leading-tight">
-                  {prod.title}
-                </h3>
-              </div>
-              <p className="text-muted-foreground text-[9px] sm:text-[11px] leading-tight text-center mt-1.5 line-clamp-2">
-                {prod.desc}
-              </p>
-            </motion.div>
+        {/* Carousel Container Wrapper with relative navigation */}
+        <div className="relative w-full px-2 sm:px-6">
+          
+          {/* Navigation Arrow - Left */}
+          <button
+            onClick={handlePrev}
+            disabled={currentIndex === 0}
+            className={`absolute left-[-8px] sm:left-[-16px] top-1/2 -translate-y-1/2 z-20 bg-primary hover:bg-primary/95 text-primary-foreground shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center backdrop-blur-md border border-white/20 ${
+              currentIndex === 0 ? "opacity-30 cursor-not-allowed" : "opacity-90 sm:opacity-100"
+            }`}
+            aria-label="Anterior"
+          >
+            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+          </button>
+
+          {/* Grid Area with Transition */}
+          <div className="overflow-hidden py-4">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ duration: 0.3 }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto"
+              >
+                {products.slice(currentIndex, currentIndex + cardsPerPage).map((prod, i) => (
+                  <motion.div
+                    key={prod.title}
+                    whileHover={{ y: -6, scale: 1.02 }}
+                    className="group bg-card rounded-lg sm:rounded-xl p-4 shadow-md hover:shadow-xl transition-all duration-300 border border-border/50 flex flex-col justify-between h-[300px] sm:h-[320px] w-full"
+                  >
+                    <div>
+                      <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden bg-muted/40 p-2 flex items-center justify-center">
+                        <Image
+                          src={prod.src}
+                          alt={prod.title}
+                          fill
+                          className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+                      <span className="text-[7px] sm:text-[9px] uppercase tracking-wider bg-primary/10 text-primary px-1.5 py-0.5 rounded mx-auto mt-3 block w-max font-semibold">
+                        {prod.badge}
+                      </span>
+                      <h3 className="text-xs sm:text-sm md:text-base font-bold text-foreground mt-2 text-center leading-tight">
+                        {prod.title}
+                      </h3>
+                    </div>
+                    <p className="text-muted-foreground text-[10px] sm:text-xs leading-normal text-center mt-2 line-clamp-3">
+                      {prod.desc}
+                    </p>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Navigation Arrow - Right */}
+          <button
+            onClick={handleNext}
+            disabled={currentIndex >= products.length - cardsPerPage}
+            className={`absolute right-[-8px] sm:right-[-16px] top-1/2 -translate-y-1/2 z-20 bg-primary hover:bg-primary/95 text-primary-foreground shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center backdrop-blur-md border border-white/20 ${
+              currentIndex >= products.length - cardsPerPage ? "opacity-30 cursor-not-allowed" : "opacity-90 sm:opacity-100"
+            }`}
+            aria-label="Próximo"
+          >
+            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+          </button>
+        </div>
+
+        {/* Pagination Dots */}
+        <div className="flex justify-center gap-2 mt-4 sm:mt-6">
+          {Array.from({ length: totalPages }).map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => goToPage(idx)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                currentPageIndex === idx 
+                  ? "bg-primary w-6" 
+                  : "bg-foreground/30 hover:bg-foreground/50"
+              }`}
+              aria-label={`Ir para página ${idx + 1}`}
+            />
           ))}
-        </motion.div>
+        </div>
+
       </div>
     </div>
   )
@@ -1229,8 +1389,8 @@ export default function Presentation() {
         )}
       </div>
 
-      {/* Mobile Slide Dots - Top - Perfeitamente Alinhados */}
-      <div className="lg:hidden fixed top-4 left-1/2 -translate-x-1/2 z-40">
+      {/* Mobile Slide Dots - Bottom - Perfeitamente Alinhados sem atrapalhar o topo */}
+      <div className="lg:hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-40">
         <div className="flex items-center justify-center gap-1.5 bg-foreground/5 backdrop-blur-sm px-3 py-2 rounded-full">
           {slides.map((_, i) => (
             <button
