@@ -1048,17 +1048,27 @@ export default function Presentation() {
     }
   }, [currentSlide, goToSlide])
 
-  // Register Service Worker for PWA
+  // Unregister Service Worker and clear cache to prevent caching issues on Vercel
   useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      "serviceWorker" in navigator &&
-      (window.location.protocol === "https:" || window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
-    ) {
-      navigator.serviceWorker
-        .register("/sw.js")
-        .then((reg) => console.log("Service Worker registered successfully:", reg.scope))
-        .catch((err) => console.error("Service Worker registration failed:", err))
+    if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        for (let registration of registrations) {
+          registration.unregister().then((success) => {
+            if (success) {
+              console.log("Old Service Worker unregistered successfully.")
+            }
+          })
+        }
+      })
+      
+      // Clear all caches to guarantee fresh load
+      if ("caches" in window) {
+        caches.keys().then((names) => {
+          for (let name of names) {
+            caches.delete(name)
+          }
+        })
+      }
     }
   }, [])
 
