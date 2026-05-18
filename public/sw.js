@@ -11,7 +11,12 @@ const ASSETS = [
   "/images/tatame-depois.jpeg",
   "/images/cleaning-worker.jpeg",
   "/images/gym-equipment.jpeg",
-  "/images/gym-floor-clean.jpeg"
+  "/images/gym-floor-clean.jpeg",
+  "/images/products/prod1.jpg",
+  "/images/products/prod2.jpg",
+  "/images/products/prod3.jpg",
+  "/images/products/prod4.jpg",
+  "/images/products/prod5.jpg"
 ];
 
 // Install Event

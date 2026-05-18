@@ -462,6 +462,116 @@ function DifferentialsSlide() {
   )
 }
 
+function ProductsSlide() {
+  const products = [
+    { 
+      src: "/images/products/prod1.jpg", 
+      title: "Sabonete Perolado", 
+      badge: "Higiene",
+      desc: "Sabonete líquido premium perolado para higienização suave e hidratação das mãos." 
+    },
+    { 
+      src: "/images/products/prod2.jpg", 
+      title: "Cloro Ativo", 
+      badge: "Desinfecção",
+      desc: "Cloro ativo concentrado para desinfecção profunda e alvejamento profissional." 
+    },
+    { 
+      src: "/images/products/prod3.jpg", 
+      title: "Desinfetante Lavanda", 
+      badge: "Uso Geral",
+      desc: "Fragrância floral/lavanda duradoura para desinfecção contínua de ambientes." 
+    },
+    { 
+      src: "/images/products/prod4.jpg", 
+      title: "Detergente Limpa Piso", 
+      badge: "Conservação",
+      desc: "Limpador profissional de alta performance para renovar o brilho e proteger pisos." 
+    },
+    { 
+      src: "/images/products/prod5.jpg", 
+      title: "Álcool Gel 70° INPM", 
+      badge: "Sanitização",
+      desc: "Sanitizante antisséptico institucional para proteção e higiene instantânea." 
+    }
+  ]
+
+  return (
+    <div className="h-full w-full flex items-center bg-muted py-10 lg:py-0 overflow-y-auto perspective-1000">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+          className="text-center mb-4 sm:mb-6 md:mb-8"
+        >
+          <motion.span 
+            variants={fadeInUp}
+            className="text-secondary font-semibold uppercase tracking-widest text-[10px] sm:text-xs"
+          >
+            Nossos Insumos
+          </motion.span>
+          <motion.h2 
+            variants={fadeInUp}
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mt-1 sm:mt-2"
+          >
+            Produtos de <span className="text-primary">Alta Performance</span>
+          </motion.h2>
+          <motion.p 
+            variants={fadeInUp}
+            className="mt-2 text-muted-foreground text-xs sm:text-sm max-w-xl mx-auto"
+          >
+            Utilizamos e fornecemos produtos profissionais de alta eficácia para garantir a máxima higiene e proteção dos ambientes.
+          </motion.p>
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 max-w-6xl mx-auto"
+          style={{ transformStyle: "preserve-3d" }}
+        >
+          {products.map((prod, i) => (
+            <motion.div
+              key={i}
+              variants={parallaxItem}
+              whileHover={{ 
+                scale: 1.03, 
+                rotateY: 2,
+                z: 10,
+                transition: { duration: 0.3 }
+              }}
+              className="group bg-card rounded-lg sm:rounded-xl p-2.5 sm:p-4 shadow-sm hover:shadow-lg transition-all duration-300 border border-border/50 flex flex-col justify-between"
+              style={{ transformStyle: "preserve-3d" }}
+            >
+              <div>
+                <div className="relative aspect-[3/4] sm:aspect-square w-full rounded-lg overflow-hidden bg-muted/40 p-2 flex items-center justify-center">
+                  <Image
+                    src={prod.src}
+                    alt={prod.title}
+                    fill
+                    className="object-contain p-1 group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <span className="text-[7px] sm:text-[9px] uppercase tracking-wider bg-primary/10 text-primary px-1.5 py-0.5 rounded mx-auto mt-2.5 block w-max font-semibold">
+                  {prod.badge}
+                </span>
+                <h3 className="text-[11px] sm:text-xs md:text-sm font-bold text-foreground mt-2 text-center leading-tight">
+                  {prod.title}
+                </h3>
+              </div>
+              <p className="text-muted-foreground text-[9px] sm:text-[11px] leading-tight text-center mt-1.5 line-clamp-2">
+                {prod.desc}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </div>
+  )
+}
+
 function BeforeAfterSlide() {
   return (
     <div className="h-full w-full flex items-center bg-muted py-10 lg:py-0 overflow-y-auto">
@@ -754,6 +864,7 @@ export default function Presentation() {
     { component: ServicesSlide, name: "Servicos" },
     { component: GallerySlide, name: "Galeria" },
     { component: DifferentialsSlide, name: "Diferenciais" },
+    { component: ProductsSlide, name: "Produtos" },
     { component: BeforeAfterSlide, name: "Antes/Depois" },
     { component: ResultsSlide, name: "Resultados" },
     { component: ClosingSlide, name: "Contato" }
