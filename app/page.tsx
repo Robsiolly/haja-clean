@@ -404,18 +404,42 @@ function GallerySlide() {
   )
 }
 
-function DifferentialsSlide() {
-  const differentials = [
-    { icon: Users, title: "Equipe Especializada" },
-    { icon: SprayCan, title: "Produtos Profissionais" },
-    { icon: CheckCircle2, title: "Atendimento Personalizado" },
-    { icon: Zap, title: "Agilidade Operacional" },
-    { icon: Shield, title: "Tecnologia e Eficiência" },
-    { icon: Award, title: "Alto Padrão de Qualidade" }
+function EquipmentsSlide() {
+  const equipments = [
+    { 
+      src: "/images/equipments/eq1.png", 
+      title: "Estação de Limpeza Bralimpia", 
+      badge: "Mobilidade",
+      desc: "Carro funcional completo com balde espremedor duplo, mops profissionais e suporte de sinalização." 
+    },
+    { 
+      src: "/images/equipments/eq2.png", 
+      title: "Sinalizador de Segurança Bralimpia", 
+      badge: "Prevenção",
+      desc: "Placa 'Cuidado Piso Molhado' de alta visibilidade para isolamento temporário e prevenção de acidentes." 
+    },
+    { 
+      src: "/images/equipments/eq3.png", 
+      title: "Placa Atenção Kunber", 
+      badge: "Sinalização",
+      desc: "Placa profissional de advertência 'Atenção Limpeza em Andamento' para orientação em áreas públicas." 
+    },
+    { 
+      src: "/images/equipments/eq4.png", 
+      title: "Balde Espremedor Duas Águas", 
+      badge: "Eficiência",
+      desc: "Sistema de baldes empilháveis (azul e vermelho) para separação de água limpa e suja com alça reforçada." 
+    },
+    { 
+      src: "/images/equipments/eq5.png", 
+      title: "Carro Multifuncional Premium", 
+      badge: "Produtividade",
+      desc: "Estação de trabalho robusta com suporte para sacos coletores, bandejas organizadoras e mops integrados." 
+    }
   ]
 
   return (
-    <div className="h-full w-full flex items-center bg-primary py-10 lg:py-0 overflow-y-auto">
+    <div className="h-full w-full flex items-center bg-primary py-8 lg:py-0 overflow-y-auto">
       <div className="container mx-auto px-4 sm:px-6 lg:px-10">
         <motion.div
           initial="hidden"
@@ -427,13 +451,13 @@ function DifferentialsSlide() {
             variants={fadeInUp}
             className="text-primary-foreground/80 font-semibold uppercase tracking-widest text-[10px] sm:text-xs"
           >
-            Por que nos escolher
+            Tecnologia e Infraestrutura
           </motion.span>
           <motion.h2 
             variants={fadeInUp}
             className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary-foreground mt-1 sm:mt-2"
           >
-            Nossos Diferenciais
+            Nossos <span className="text-secondary">Equipamentos</span>
           </motion.h2>
         </motion.div>
 
@@ -441,20 +465,36 @@ function DifferentialsSlide() {
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
-          className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 md:gap-4 max-w-4xl mx-auto"
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 max-w-7xl mx-auto"
         >
-          {differentials.map((item, i) => (
+          {equipments.map((eq, i) => (
             <motion.div
               key={i}
               variants={parallaxItem}
-              whileHover={{ scale: 1.03 }}
-              transition={{ duration: 0.2 }}
-              className="bg-primary-foreground/10 backdrop-blur-sm rounded-lg sm:rounded-xl p-2.5 sm:p-4 md:p-5 border border-primary-foreground/20"
+              whileHover={{ y: -6, scale: 1.02 }}
+              className="bg-primary-foreground/10 border border-primary-foreground/15 rounded-xl overflow-hidden shadow-lg flex flex-col group cursor-pointer transition-all duration-300 backdrop-blur-sm"
             >
-              <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg bg-primary-foreground/20 flex items-center justify-center mb-2 sm:mb-3">
-                <item.icon className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary-foreground" />
+              <div className="relative aspect-square w-full bg-white overflow-hidden flex items-center justify-center p-2 sm:p-4">
+                <Image
+                  src={eq.src}
+                  alt={eq.title}
+                  fill
+                  className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
+                />
+                <span className="absolute top-2 left-2 bg-secondary text-secondary-foreground px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold shadow-md">
+                  {eq.badge}
+                </span>
               </div>
-              <h3 className="text-[11px] sm:text-sm md:text-base font-bold text-primary-foreground leading-tight">{item.title}</h3>
+              <div className="p-3 flex flex-col flex-grow justify-between bg-primary-foreground/5">
+                <div>
+                  <h3 className="font-bold text-xs sm:text-sm text-primary-foreground leading-snug group-hover:text-secondary transition-colors line-clamp-2">
+                    {eq.title}
+                  </h3>
+                  <p className="text-[10px] sm:text-xs text-primary-foreground/85 mt-1 line-clamp-3 leading-relaxed">
+                    {eq.desc}
+                  </p>
+                </div>
+              </div>
             </motion.div>
           ))}
         </motion.div>
@@ -864,7 +904,7 @@ export default function Presentation() {
     { component: AboutSlide, name: "Sobre" },
     { component: ServicesSlide, name: "Serviços" },
     { component: GallerySlide, name: "Galeria" },
-    { component: DifferentialsSlide, name: "Diferenciais" },
+    { component: EquipmentsSlide, name: "Equipamentos" },
     { component: ProductsSlide, name: "Produtos" },
     { component: BeforeAfterSlide, name: "Antes/Depois" },
     { component: ResultsSlide, name: "Resultados" },
