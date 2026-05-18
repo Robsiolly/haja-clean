@@ -1,4 +1,4 @@
-const CACHE_NAME = "haja-clean-v5";
+const CACHE_NAME = "haja-clean-v6";
 const ASSETS = [
   "/",
   "/manifest.json",
@@ -54,32 +54,67 @@ self.addEventListener("activate", (e) => {
   );
 });
 
-// Fetch Event (Cache-first with network fallback)
+// Fetch Event
 self.addEventListener("fetch", (e) => {
-  e.respondWith(
-    caches.match(e.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      return fetch(e.request).then((networkResponse) => {
-        // Cache newly requested assets if they belong to our origin and are static assets
-        if (
-          e.request.url.startsWith(self.location.origin) &&
-          e.request.method === "GET" &&
-          (e.request.url.includes("/_next/static/") || e.request.url.includes("/images/"))
-        ) {
-          return caches.open(CACHE_NAME).then((cache) => {
-            cache.put(e.request, networkResponse.clone());
-            return networkResponse;
+  const url = new URL(e.request.url);
+
+  // 1. Bypass Service Worker cache for Next.js hot-reloading (HMR) and development requests
+  if (url.pathname.includes("/_next/webpack-hmr") || e.request.method !== "GET") {
+    return;
+  }
+
+  // 2. Network-first strategy for navigation (HTML) and Next.js static files to prevent outdated assets and blank screens
+  if (e.request.mode === "navigate" || url.pathname.startsWith("/_next/")) {
+    e.respondWith(
+      fetch(e.request)
+        .then((networkResponse) => {
+          // Cache the latest copy of the page/assets for offline fallback
+          if (networkResponse.status === 200) {
+            const responseClone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(e.request, responseClone);
+            });
+          }
+          return networkResponse;
+        })
+        .catch(() => {
+          // Offline fallback
+          return caches.match(e.request).then((cachedResponse) => {
+            if (cachedResponse) return cachedResponse;
+            if (e.request.mode === "navigate") {
+              return caches.match("/");
+            }
           });
+        })
+    );
+    return;
+  }
+
+  // 3. Cache-first strategy for local static assets (images, icons, manifest)
+  if (
+    url.origin === self.location.origin &&
+    (url.pathname.startsWith("/images/") ||
+      url.pathname.startsWith("/fonts/") ||
+      url.pathname === "/manifest.json" ||
+      url.pathname.endsWith(".ico") ||
+      url.pathname.endsWith(".png"))
+  ) {
+    e.respondWith(
+      caches.match(e.request).then((cachedResponse) => {
+        if (cachedResponse) {
+          return cachedResponse;
         }
-        return networkResponse;
-      });
-    }).catch(() => {
-      // Fallback for offline mode if asset is not cached
-      if (e.request.mode === "navigate") {
-        return caches.match("/");
-      }
-    })
-  );
+        return fetch(e.request).then((networkResponse) => {
+          if (networkResponse.status === 200) {
+            const responseClone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(e.request, responseClone);
+            });
+          }
+          return networkResponse;
+        });
+      })
+    );
+    return;
+  }
 });
