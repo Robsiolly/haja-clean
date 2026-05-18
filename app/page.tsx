@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion"
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import Image from "next/image"
 import { 
   Sparkles, 
@@ -20,6 +20,8 @@ import {
   Mail,
   ChevronUp,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   MessageCircle,
   RotateCcw
 } from "lucide-react"
@@ -462,14 +464,29 @@ function EquipmentsSlide() {
     }
   ]
 
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+
+  const handleScroll = (direction: "left" | "right") => {
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current
+      const scrollAmount = container.clientWidth * 0.75
+      container.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth"
+      })
+    }
+  }
+
   return (
-    <div className="h-full w-full flex items-start lg:items-center bg-primary py-16 sm:py-20 lg:py-8 overflow-y-auto">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
+    <div className="h-full w-full flex items-center bg-primary py-8 overflow-hidden relative">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10 flex flex-col h-full justify-center max-w-7xl">
+        
+        {/* Header Section */}
         <motion.div
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
-          className="text-center mb-4 sm:mb-6 md:mb-8"
+          className="text-center mb-4 sm:mb-6"
         >
           <motion.span 
             variants={fadeInUp}
@@ -479,49 +496,83 @@ function EquipmentsSlide() {
           </motion.span>
           <motion.h2 
             variants={fadeInUp}
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary-foreground mt-1 sm:mt-2"
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary-foreground mt-1"
           >
             Nossos <span className="text-secondary">Equipamentos</span>
           </motion.h2>
         </motion.div>
 
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={staggerContainer}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 max-w-7xl mx-auto"
-        >
-          {equipments.map((eq, i) => (
-            <motion.div
-              key={i}
-              variants={parallaxItem}
-              whileHover={{ y: -6, scale: 1.02 }}
-              className="bg-primary-foreground/10 border border-primary-foreground/15 rounded-xl overflow-hidden shadow-lg flex flex-col group cursor-pointer transition-all duration-300 backdrop-blur-sm"
-            >
-              <div className="relative aspect-square w-full bg-white overflow-hidden flex items-center justify-center p-2 sm:p-4">
-                <Image
-                  src={eq.src}
-                  alt={eq.title}
-                  fill
-                  className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
-                />
-                <span className="absolute top-2 left-2 bg-secondary text-secondary-foreground px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold shadow-md">
-                  {eq.badge}
-                </span>
-              </div>
-              <div className="p-3 flex flex-col flex-grow justify-between bg-primary-foreground/5">
-                <div>
-                  <h3 className="font-bold text-xs sm:text-sm text-primary-foreground leading-snug group-hover:text-secondary transition-colors line-clamp-2">
-                    {eq.title}
-                  </h3>
-                  <p className="text-[10px] sm:text-xs text-primary-foreground/85 mt-1 line-clamp-3 leading-relaxed">
-                    {eq.desc}
-                  </p>
+        {/* Carousel Container Wrapper with relative navigation */}
+        <div className="relative w-full group/carousel px-2 sm:px-6">
+          
+          {/* Navigation Arrow - Left */}
+          <button
+            onClick={() => handleScroll("left")}
+            className="absolute left-[-8px] sm:left-[-16px] top-1/2 -translate-y-1/2 z-20 bg-secondary hover:bg-secondary/95 text-secondary-foreground shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center backdrop-blur-md border border-white/20 opacity-90 sm:opacity-0 sm:group-hover/carousel:opacity-100"
+            aria-label="Scroll Esquerda"
+          >
+            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+          </button>
+
+          {/* Horizontal Scroll Area */}
+          <div
+            ref={scrollContainerRef}
+            className="flex gap-4 sm:gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory py-4 px-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          >
+            {equipments.map((eq, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: i * 0.05 }}
+                whileHover={{ y: -6, scale: 1.02 }}
+                className="snap-center flex-shrink-0 w-[260px] sm:w-[300px] md:w-[320px] bg-primary-foreground/10 border border-primary-foreground/15 rounded-xl overflow-hidden shadow-lg flex flex-col group cursor-pointer transition-all duration-300 backdrop-blur-sm"
+              >
+                {/* Product Image */}
+                <div className="relative aspect-square w-full bg-white overflow-hidden flex items-center justify-center p-4">
+                  <Image
+                    src={eq.src}
+                    alt={eq.title}
+                    fill
+                    sizes="(max-w-768px) 260px, 320px"
+                    className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <span className="absolute top-2 left-2 bg-secondary text-secondary-foreground px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold shadow-md">
+                    {eq.badge}
+                  </span>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+
+                {/* Content */}
+                <div className="p-4 flex flex-col flex-grow justify-between bg-primary-foreground/5 min-h-[120px]">
+                  <div>
+                    <h3 className="font-bold text-xs sm:text-sm text-primary-foreground leading-snug group-hover:text-secondary transition-colors line-clamp-2">
+                      {eq.title}
+                    </h3>
+                    <p className="text-[10px] sm:text-xs text-primary-foreground/80 mt-1.5 line-clamp-3 leading-relaxed">
+                      {eq.desc}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Navigation Arrow - Right */}
+          <button
+            onClick={() => handleScroll("right")}
+            className="absolute right-[-8px] sm:right-[-16px] top-1/2 -translate-y-1/2 z-20 bg-secondary hover:bg-secondary/95 text-secondary-foreground shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center backdrop-blur-md border border-white/20 opacity-90 sm:opacity-0 sm:group-hover/carousel:opacity-100"
+            aria-label="Scroll Direita"
+          >
+            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+          </button>
+
+        </div>
+
+        {/* Dynamic scroll hint under carousel */}
+        <div className="text-center mt-3 sm:mt-5 text-primary-foreground/60 text-[9px] sm:text-[11px] flex items-center justify-center gap-2">
+          <span>Arrastar ou usar as setas laterais para navegar</span>
+        </div>
+
       </div>
     </div>
   )
