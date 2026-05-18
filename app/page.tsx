@@ -20,7 +20,8 @@ import {
   Mail,
   ChevronUp,
   ChevronDown,
-  MessageCircle
+  MessageCircle,
+  RotateCcw
 } from "lucide-react"
 
 // 3D Parallax slide variants - mais suave
@@ -1031,18 +1032,30 @@ export default function Presentation() {
       </div>
 
       <div className="fixed bottom-4 right-4 z-40">
-        <button
-          onClick={nextSlide}
-          disabled={currentSlide === slides.length - 1}
-          className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full transition-all duration-300 flex items-center justify-center ${
-            currentSlide === slides.length - 1
-              ? "opacity-0 pointer-events-none"
-              : "bg-primary/90 text-primary-foreground hover:bg-primary active:scale-95"
-          }`}
-          aria-label="Proximo slide"
-        >
-          <ChevronDown className="w-5 h-5" />
-        </button>
+        {currentSlide === slides.length - 1 ? (
+          <button
+            onClick={() => goToSlide(0)}
+            className="group flex items-center gap-1.5 px-3.5 py-2.5 bg-primary text-primary-foreground hover:bg-primary/95 rounded-full font-bold text-xs sm:text-sm transition-all hover:scale-105 active:scale-95 shadow-xl border border-primary/20"
+            aria-label="Voltar ao início"
+            title="Voltar ao início"
+          >
+            <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:-rotate-180 transition-transform duration-500" />
+            <span>Voltar ao Início</span>
+          </button>
+        ) : (
+          <button
+            onClick={nextSlide}
+            disabled={currentSlide === slides.length - 1}
+            className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full transition-all duration-300 flex items-center justify-center ${
+              currentSlide === slides.length - 1
+                ? "opacity-0 pointer-events-none"
+                : "bg-primary/90 text-primary-foreground hover:bg-primary active:scale-95"
+            }`}
+            aria-label="Proximo slide"
+          >
+            <ChevronDown className="w-5 h-5" />
+          </button>
+        )}
       </div>
 
       {/* Mobile Slide Dots - Top - Perfeitamente Alinhados */}
