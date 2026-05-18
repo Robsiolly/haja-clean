@@ -428,9 +428,9 @@ function EquipmentsSlide() {
     },
     { 
       src: "/images/equipments/eq4.jpg", 
-      title: "Balde Espremedor Duas Águas", 
-      badge: "Eficiência",
-      desc: "Sistema de baldes empilháveis (azul e vermelho) para separação de água limpa e suja com alça reforçada." 
+      title: "Mop Profissional Fibra", 
+      badge: "Alta Absorção",
+      desc: "Mop profissional de fibra de alta absorção para limpeza úmida e seca, ideal para grandes áreas e centros esportivos." 
     },
     { 
       src: "/images/equipments/eq5.jpg", 
