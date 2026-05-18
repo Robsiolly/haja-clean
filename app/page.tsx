@@ -948,6 +948,27 @@ export default function Presentation() {
     }
   }, [nextSlide, prevSlide])
 
+  // Mouse Wheel navigation (debounced)
+  useEffect(() => {
+    let lastScrollTime = 0
+    const handleWheel = (e: WheelEvent) => {
+      const currentTime = Date.now()
+      if (currentTime - lastScrollTime < 800) return // Debounce of 800ms
+
+      if (Math.abs(e.deltaY) > 20) {
+        if (e.deltaY > 0) {
+          nextSlide()
+        } else {
+          prevSlide()
+        }
+        lastScrollTime = currentTime
+      }
+    }
+
+    window.addEventListener("wheel", handleWheel, { passive: true })
+    return () => window.removeEventListener("wheel", handleWheel)
+  }, [nextSlide, prevSlide])
+
   const CurrentSlideComponent = slides[currentSlide].component
 
   return (
