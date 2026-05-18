@@ -98,7 +98,7 @@ const parallaxItem = {
 // Slide Components
 function CoverSlide() {
   return (
-    <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-background via-background to-muted relative overflow-hidden perspective-1000">
+    <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-background via-background to-muted relative overflow-y-auto py-10 lg:py-0 perspective-1000">
       {/* Decorative elements with parallax depth */}
       <motion.div 
         className="absolute inset-0 overflow-hidden pointer-events-none"
@@ -175,7 +175,7 @@ function CoverSlide() {
 
 function AboutSlide() {
   return (
-    <div className="h-full w-full flex items-center bg-background py-10 lg:py-0 overflow-y-auto perspective-1000">
+    <div className="h-full w-full flex items-center bg-transparent py-10 lg:py-0 overflow-y-auto perspective-1000">
       <div className="container mx-auto px-4 sm:px-6 lg:px-10">
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-12 items-center">
           {/* Image */}
@@ -187,7 +187,7 @@ function AboutSlide() {
             style={{ transformStyle: "preserve-3d" }}
           >
             <motion.div 
-              className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-2xl"
+              className="relative w-full h-[240px] sm:h-[320px] md:h-[400px] rounded-xl overflow-hidden shadow-2xl"
               whileHover={{ scale: 1.02, rotateY: 2 }}
               transition={{ duration: 0.4 }}
             >
@@ -282,7 +282,7 @@ function ServicesSlide() {
   ]
 
   return (
-    <div className="h-full w-full flex items-center bg-muted py-10 lg:py-0 overflow-y-auto perspective-1000">
+    <div className="h-full w-full flex items-center bg-transparent py-10 lg:py-0 overflow-y-auto perspective-1000">
       <div className="container mx-auto px-4 sm:px-6 lg:px-10">
         <motion.div
           initial="hidden"
@@ -344,21 +344,11 @@ function GallerySlide() {
     { src: "/images/gym-tatame.jpeg", title: "Áreas Funcionais" }
   ]
 
-  const [isMobileOrTablet, setIsMobileOrTablet] = useState(false)
   const [galleryIndex, setGalleryIndex] = useState(0)
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobileOrTablet(window.innerWidth < 1024)
-    }
-    handleResize()
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
-
   return (
-    <div className="h-full w-full flex items-center bg-background py-10 lg:py-0 overflow-hidden perspective-1000">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-10 flex flex-col justify-center max-w-5xl h-full">
+    <div className="h-full w-full flex items-center bg-transparent py-10 lg:py-0 overflow-y-auto perspective-1000">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10 flex flex-col justify-center max-w-5xl min-h-full py-8 lg:py-0">
         <motion.div
           initial="hidden"
           animate="visible"
@@ -379,108 +369,98 @@ function GallerySlide() {
           </motion.h2>
         </motion.div>
 
-        {isMobileOrTablet ? (
-          <div className="relative w-full max-w-lg mx-auto px-6">
-            {/* Left Button */}
-            <button
-              onClick={() => setGalleryIndex((prev) => Math.max(0, prev - 1))}
-              disabled={galleryIndex === 0}
-              className={`absolute left-[-12px] top-1/2 -translate-y-1/2 z-20 bg-primary hover:bg-primary/95 text-primary-foreground shadow-lg hover:scale-105 transition-all rounded-full w-9 h-9 flex items-center justify-center border border-white/10 ${
-                galleryIndex === 0 ? "opacity-30 cursor-not-allowed" : "opacity-100"
-              }`}
-              aria-label="Anterior"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-
-            {/* Slider view */}
-            <div className="overflow-hidden py-2">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={galleryIndex}
-                  initial={{ opacity: 0, x: 30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -30 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-xl"
-                >
-                  <Image
-                    src={images[galleryIndex].src}
-                    alt={images[galleryIndex].title}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-foreground/75 via-transparent to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <span className="text-white/70 text-[10px] font-medium uppercase tracking-widest">0{galleryIndex + 1}</span>
-                    <h3 className="text-white text-sm sm:text-base font-bold mt-0.5">{images[galleryIndex].title}</h3>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            {/* Right Button */}
-            <button
-              onClick={() => setGalleryIndex((prev) => Math.min(images.length - 1, prev + 1))}
-              disabled={galleryIndex === images.length - 1}
-              className={`absolute right-[-12px] top-1/2 -translate-y-1/2 z-20 bg-primary hover:bg-primary/95 text-primary-foreground shadow-lg hover:scale-105 transition-all rounded-full w-9 h-9 flex items-center justify-center border border-white/10 ${
-                galleryIndex === images.length - 1 ? "opacity-30 cursor-not-allowed" : "opacity-100"
-              }`}
-              aria-label="Próximo"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-
-            {/* Dots */}
-            <div className="flex justify-center gap-2 mt-4">
-              {images.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setGalleryIndex(idx)}
-                  className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                    galleryIndex === idx ? "bg-primary w-4" : "bg-foreground/30"
-                  }`}
-                  aria-label={`Página ${idx + 1}`}
-                />
-              ))}
-            </div>
-          </div>
-        ) : (
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={staggerContainer}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-5xl mx-auto"
-            style={{ transformStyle: "preserve-3d" }}
+        {/* Mobile / Tablet Slider View */}
+        <div className="lg:hidden relative w-full max-w-lg mx-auto px-6">
+          {/* Left Button */}
+          <button
+            onClick={() => setGalleryIndex((prev) => Math.max(0, prev - 1))}
+            disabled={galleryIndex === 0}
+            className={`absolute left-[-12px] top-1/2 -translate-y-1/2 z-20 bg-primary hover:bg-primary/95 text-primary-foreground shadow-lg hover:scale-105 transition-all rounded-full w-9 h-9 flex items-center justify-center border border-white/10 ${
+              galleryIndex === 0 ? "opacity-30 cursor-not-allowed" : "opacity-100"
+            }`}
+            aria-label="Anterior"
           >
-            {images.map((image, i) => (
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+
+          {/* Slider view */}
+          <div className="overflow-hidden py-2">
+            <AnimatePresence mode="wait">
               <motion.div
-                key={i}
-                variants={parallaxItem}
-                whileHover={{ 
-                  scale: 1.05, 
-                  rotateY: i === 1 ? 0 : (i === 0 ? 5 : -5),
-                  z: 30
-                }}
-                transition={{ duration: 0.4 }}
-                className="relative aspect-[4/3] sm:aspect-[3/4] rounded-lg sm:rounded-xl overflow-hidden shadow-lg group"
-                style={{ transformStyle: "preserve-3d" }}
+                key={galleryIndex}
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -30 }}
+                transition={{ duration: 0.3 }}
+                className="relative w-full h-[240px] sm:h-[300px] rounded-xl overflow-hidden shadow-xl"
               >
                 <Image
-                  src={image.src}
-                  alt={image.title}
+                  src={images[galleryIndex].src}
+                  alt={images[galleryIndex].title}
                   fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-transparent to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4">
-                  <span className="text-white/70 text-[8px] sm:text-xs font-medium uppercase tracking-widest">0{i + 1}</span>
-                  <h3 className="text-white text-xs sm:text-base md:text-lg font-bold mt-0.5">{image.title}</h3>
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/75 via-transparent to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <span className="text-white/70 text-[10px] font-medium uppercase tracking-widest">0{galleryIndex + 1}</span>
+                  <h3 className="text-white text-sm sm:text-base font-bold mt-0.5">{images[galleryIndex].title}</h3>
                 </div>
               </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Right Button */}
+          <button
+            onClick={() => setGalleryIndex((prev) => Math.min(images.length - 1, prev + 1))}
+            disabled={galleryIndex === images.length - 1}
+            className={`absolute right-[-12px] top-1/2 -translate-y-1/2 z-20 bg-primary hover:bg-primary/95 text-primary-foreground shadow-lg hover:scale-105 transition-all rounded-full w-9 h-9 flex items-center justify-center border border-white/10 ${
+              galleryIndex === images.length - 1 ? "opacity-30 cursor-not-allowed" : "opacity-100"
+            }`}
+            aria-label="Próximo"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+
+          {/* Dots */}
+          <div className="flex justify-center gap-2 mt-4">
+            {images.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setGalleryIndex(idx)}
+                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                  galleryIndex === idx ? "bg-primary w-4" : "bg-foreground/30"
+                }`}
+                aria-label={`Página ${idx + 1}`}
+              />
             ))}
-          </motion.div>
-        )}
+          </div>
+        </div>
+
+        {/* Desktop Grid View */}
+        <div
+          className="hidden lg:grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 w-full max-w-5xl mx-auto"
+          style={{ transformStyle: "preserve-3d" }}
+        >
+          {images.map((image, i) => (
+            <div
+              key={i}
+              className="relative w-full h-[280px] sm:h-[320px] md:h-[380px] lg:h-[420px] rounded-lg sm:rounded-xl overflow-hidden shadow-lg group hover:scale-105 transition-all duration-300"
+              style={{ transformStyle: "preserve-3d" }}
+            >
+              <Image
+                src={image.src}
+                alt={image.title}
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4">
+                <span className="text-white/70 text-[8px] sm:text-xs font-medium uppercase tracking-widest">0{i + 1}</span>
+                <h3 className="text-white text-xs sm:text-base md:text-lg font-bold mt-0.5">{image.title}</h3>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
@@ -579,8 +559,8 @@ function EquipmentsSlide() {
   }
 
   return (
-    <div className="h-full w-full flex items-center bg-primary py-8 overflow-hidden relative">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-10 flex flex-col h-full justify-center max-w-7xl">
+    <div className="h-full w-full flex items-center dark-brand-gradient py-10 lg:py-0 overflow-y-auto relative">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10 flex flex-col min-h-full justify-center max-w-7xl py-8 lg:py-0">
         
         {/* Header Section */}
         <motion.div
@@ -769,8 +749,8 @@ function ProductsSlide() {
   }
 
   return (
-    <div className="h-full w-full flex items-center bg-muted py-8 overflow-hidden relative">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-10 flex flex-col h-full justify-center max-w-7xl">
+    <div className="h-full w-full flex items-center bg-transparent py-10 lg:py-0 overflow-y-auto relative">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10 flex flex-col min-h-full justify-center max-w-7xl py-8 lg:py-0">
         
         {/* Header Section */}
         <motion.div
@@ -892,7 +872,7 @@ function ProductsSlide() {
 
 function BeforeAfterSlide() {
   return (
-    <div className="h-full w-full flex items-center bg-muted py-10 lg:py-0 overflow-y-auto">
+    <div className="h-full w-full flex items-center bg-transparent py-10 lg:py-0 overflow-y-auto">
       <div className="container mx-auto px-4 sm:px-6 lg:px-10">
         <motion.div
           initial="hidden"
@@ -933,7 +913,7 @@ function BeforeAfterSlide() {
             </div>
             <motion.div 
               whileHover={{ scale: 1.02 }}
-              className="relative aspect-[4/3] rounded-lg sm:rounded-xl overflow-hidden shadow-xl"
+              className="relative w-full h-[200px] sm:h-[260px] md:h-[320px] lg:h-[380px] rounded-lg sm:rounded-xl overflow-hidden shadow-xl"
             >
               <Image
                 src="/images/tatame-antes.jpeg"
@@ -952,7 +932,7 @@ function BeforeAfterSlide() {
             </div>
             <motion.div 
               whileHover={{ scale: 1.02 }}
-              className="relative aspect-[4/3] rounded-lg sm:rounded-xl overflow-hidden shadow-xl"
+              className="relative w-full h-[200px] sm:h-[260px] md:h-[320px] lg:h-[380px] rounded-lg sm:rounded-xl overflow-hidden shadow-xl"
             >
               <Image
                 src="/images/tatame-depois.jpeg"
@@ -993,11 +973,11 @@ function ResultsSlide() {
   ]
 
   return (
-    <div className="h-full w-full flex items-center bg-background py-10 lg:py-0 overflow-y-auto relative">
+    <div className="h-full w-full flex items-center bg-transparent py-10 lg:py-0 overflow-y-auto relative">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image src="/images/cleaning-worker.jpeg" alt="Background" fill className="object-cover opacity-10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-background/15 to-transparent" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
@@ -1050,7 +1030,7 @@ function ResultsSlide() {
 
 function ClosingSlide() {
   return (
-    <div className="h-full w-full flex items-center bg-gradient-to-br from-foreground via-foreground to-foreground/95 py-12 lg:py-0 overflow-y-auto relative perspective-1000">
+    <div className="h-full w-full flex items-center dark-brand-gradient py-12 lg:py-0 overflow-y-auto relative perspective-1000">
       {/* Decorative elements */}
       <motion.div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
@@ -1232,79 +1212,13 @@ export default function Presentation() {
     }
   }, [])
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowDown" || e.key === "ArrowRight" || e.key === " ") {
-        e.preventDefault()
-        nextSlide()
-      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
-        e.preventDefault()
-        prevSlide()
-      }
-    }
-    window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [nextSlide, prevSlide])
-
-  // Touch/Swipe navigation
-  useEffect(() => {
-    let touchStartY = 0
-    let touchStartX = 0
-
-    const handleTouchStart = (e: TouchEvent) => {
-      touchStartY = e.touches[0].clientY
-      touchStartX = e.touches[0].clientX
-    }
-
-    const handleTouchEnd = (e: TouchEvent) => {
-      const touchEndY = e.changedTouches[0].clientY
-      const touchEndX = e.changedTouches[0].clientX
-      const diffY = touchStartY - touchEndY
-      const diffX = touchStartX - touchEndX
-
-      if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 50) {
-        if (diffY > 0) nextSlide()
-        else prevSlide()
-      } else if (Math.abs(diffX) > 50) {
-        if (diffX > 0) nextSlide()
-        else prevSlide()
-      }
-    }
-
-    window.addEventListener("touchstart", handleTouchStart)
-    window.addEventListener("touchend", handleTouchEnd)
-    return () => {
-      window.removeEventListener("touchstart", handleTouchStart)
-      window.removeEventListener("touchend", handleTouchEnd)
-    }
-  }, [nextSlide, prevSlide])
-
-  // Mouse Wheel navigation (debounced)
-  useEffect(() => {
-    let lastScrollTime = 0
-    const handleWheel = (e: WheelEvent) => {
-      const currentTime = Date.now()
-      if (currentTime - lastScrollTime < 800) return // Debounce of 800ms
-
-      if (Math.abs(e.deltaY) > 20) {
-        if (e.deltaY > 0) {
-          nextSlide()
-        } else {
-          prevSlide()
-        }
-        lastScrollTime = currentTime
-      }
-    }
-
-    window.addEventListener("wheel", handleWheel, { passive: true })
-    return () => window.removeEventListener("wheel", handleWheel)
-  }, [nextSlide, prevSlide])
+  // Keyboard, Touch/Swipe, and Wheel navigation have been removed/disabled as requested.
+  // Sections will now change ONLY when touching navigation buttons (dots or arrows).
 
   const CurrentSlideComponent = slides[currentSlide].component
 
   return (
-    <main className="h-screen w-screen overflow-hidden bg-background relative" style={{ perspective: "1200px" }}>
+    <main className="h-screen w-screen overflow-hidden brand-gradient relative" style={{ perspective: "1200px" }}>
       {/* Slides Container with 3D Perspective */}
       <AnimatePresence mode="wait" custom={direction}>
         <motion.div
