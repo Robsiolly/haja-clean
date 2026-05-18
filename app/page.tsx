@@ -464,17 +464,38 @@ function EquipmentsSlide() {
     }
   ]
 
-  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [cardsPerPage, setCardsPerPage] = useState(3)
+  const [currentIndex, setCurrentIndex] = useState(0)
 
-  const handleScroll = (direction: "left" | "right") => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current
-      const scrollAmount = container.clientWidth * 0.75
-      container.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth"
-      })
+  useEffect(() => {
+    const handleResize = () => {
+      let perPage = 3
+      if (window.innerWidth < 768) {
+        perPage = 1
+      } else if (window.innerWidth < 1024) {
+        perPage = 2
+      }
+      setCardsPerPage(perPage)
+      setCurrentIndex((prev) => Math.max(0, Math.min(equipments.length - perPage, prev)))
     }
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [equipments.length])
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => Math.max(0, prev - cardsPerPage))
+  }
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => Math.min(equipments.length - cardsPerPage, prev + cardsPerPage))
+  }
+
+  const totalPages = Math.ceil(equipments.length / cardsPerPage)
+  const currentPageIndex = Math.floor(currentIndex / cardsPerPage)
+
+  const goToPage = (pageIndex: number) => {
+    setCurrentIndex(Math.min(equipments.length - cardsPerPage, pageIndex * cardsPerPage))
   }
 
   return (
@@ -503,74 +524,95 @@ function EquipmentsSlide() {
         </motion.div>
 
         {/* Carousel Container Wrapper with relative navigation */}
-        <div className="relative w-full group/carousel px-2 sm:px-6">
+        <div className="relative w-full px-2 sm:px-6">
           
           {/* Navigation Arrow - Left */}
           <button
-            onClick={() => handleScroll("left")}
-            className="absolute left-[-8px] sm:left-[-16px] top-1/2 -translate-y-1/2 z-20 bg-secondary hover:bg-secondary/95 text-secondary-foreground shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center backdrop-blur-md border border-white/20 opacity-90 sm:opacity-0 sm:group-hover/carousel:opacity-100"
-            aria-label="Scroll Esquerda"
+            onClick={handlePrev}
+            disabled={currentIndex === 0}
+            className={`absolute left-[-8px] sm:left-[-16px] top-1/2 -translate-y-1/2 z-20 bg-secondary hover:bg-secondary/95 text-secondary-foreground shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center backdrop-blur-md border border-white/20 ${
+              currentIndex === 0 ? "opacity-30 cursor-not-allowed" : "opacity-90 sm:opacity-100"
+            }`}
+            aria-label="Anterior"
           >
             <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
 
-          {/* Horizontal Scroll Area */}
-          <div
-            ref={scrollContainerRef}
-            className="flex gap-4 sm:gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory py-4 px-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-          >
-            {equipments.map((eq, i) => (
+          {/* Grid Area with Transition */}
+          <div className="overflow-hidden py-4">
+            <AnimatePresence mode="wait">
               <motion.div
-                key={i}
+                key={currentIndex}
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-                whileHover={{ y: -6, scale: 1.02 }}
-                className="snap-center flex-shrink-0 w-[260px] sm:w-[300px] md:w-[320px] bg-primary-foreground/10 border border-primary-foreground/15 rounded-xl overflow-hidden shadow-lg flex flex-col group cursor-pointer transition-all duration-300 backdrop-blur-sm"
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ duration: 0.3 }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
               >
-                {/* Product Image */}
-                <div className="relative aspect-square w-full bg-white overflow-hidden flex items-center justify-center p-4">
-                  <Image
-                    src={eq.src}
-                    alt={eq.title}
-                    fill
-                    sizes="(max-w-768px) 260px, 320px"
-                    className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <span className="absolute top-2 left-2 bg-secondary text-secondary-foreground px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold shadow-md">
-                    {eq.badge}
-                  </span>
-                </div>
+                {equipments.slice(currentIndex, currentIndex + cardsPerPage).map((eq, i) => (
+                  <motion.div
+                    key={eq.title}
+                    whileHover={{ y: -6, scale: 1.02 }}
+                    className="bg-primary-foreground/10 border border-primary-foreground/15 rounded-xl overflow-hidden shadow-lg flex flex-col group cursor-pointer transition-all duration-300 backdrop-blur-sm w-full"
+                  >
+                    {/* Product Image */}
+                    <div className="relative aspect-square w-full bg-white overflow-hidden flex items-center justify-center p-4">
+                      <Image
+                        src={eq.src}
+                        alt={eq.title}
+                        fill
+                        sizes="(max-w-768px) 100vw, (max-w-1024px) 50vw, 33vw"
+                        className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <span className="absolute top-2 left-2 bg-secondary text-secondary-foreground px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold shadow-md">
+                        {eq.badge}
+                      </span>
+                    </div>
 
-                {/* Content */}
-                <div className="p-4 flex flex-col flex-grow justify-between bg-primary-foreground/5 min-h-[120px]">
-                  <div>
-                    <h3 className="font-bold text-xs sm:text-sm text-primary-foreground leading-snug group-hover:text-secondary transition-colors line-clamp-2">
-                      {eq.title}
-                    </h3>
-                    <p className="text-[10px] sm:text-xs text-primary-foreground/80 mt-1.5 line-clamp-3 leading-relaxed">
-                      {eq.desc}
-                    </p>
-                  </div>
-                </div>
+                    {/* Content */}
+                    <div className="p-4 flex flex-col flex-grow justify-between bg-primary-foreground/5 min-h-[120px]">
+                      <div>
+                        <h3 className="font-bold text-xs sm:text-sm text-primary-foreground leading-snug group-hover:text-secondary transition-colors line-clamp-2">
+                          {eq.title}
+                        </h3>
+                        <p className="text-[10px] sm:text-xs text-primary-foreground/80 mt-1.5 line-clamp-3 leading-relaxed">
+                          {eq.desc}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
               </motion.div>
-            ))}
+            </AnimatePresence>
           </div>
 
           {/* Navigation Arrow - Right */}
           <button
-            onClick={() => handleScroll("right")}
-            className="absolute right-[-8px] sm:right-[-16px] top-1/2 -translate-y-1/2 z-20 bg-secondary hover:bg-secondary/95 text-secondary-foreground shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center backdrop-blur-md border border-white/20 opacity-90 sm:opacity-0 sm:group-hover/carousel:opacity-100"
-            aria-label="Scroll Direita"
+            onClick={handleNext}
+            disabled={currentIndex >= equipments.length - cardsPerPage}
+            className={`absolute right-[-8px] sm:right-[-16px] top-1/2 -translate-y-1/2 z-20 bg-secondary hover:bg-secondary/95 text-secondary-foreground shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center backdrop-blur-md border border-white/20 ${
+              currentIndex >= equipments.length - cardsPerPage ? "opacity-30 cursor-not-allowed" : "opacity-90 sm:opacity-100"
+            }`}
+            aria-label="Próximo"
           >
             <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
-
         </div>
 
-        {/* Dynamic scroll hint under carousel */}
-        <div className="text-center mt-3 sm:mt-5 text-primary-foreground/60 text-[9px] sm:text-[11px] flex items-center justify-center gap-2">
-          <span>Arrastar ou usar as setas laterais para navegar</span>
+        {/* Pagination Dots */}
+        <div className="flex justify-center gap-2 mt-4 sm:mt-6">
+          {Array.from({ length: totalPages }).map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => goToPage(idx)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                currentPageIndex === idx 
+                  ? "bg-secondary w-6" 
+                  : "bg-primary-foreground/30 hover:bg-primary-foreground/50"
+              }`}
+              aria-label={`Ir para página ${idx + 1}`}
+            />
+          ))}
         </div>
 
       </div>
