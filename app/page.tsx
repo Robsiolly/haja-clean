@@ -151,8 +151,8 @@ function CoverSlide() {
             className="text-xl sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground leading-tight tracking-tight text-balance"
             style={{ transform: "translateZ(30px)" }}
           >
-            Excelencia em Limpeza e Facilities
-            <span className="text-primary block mt-1 sm:mt-2">com Padrao Profissional</span>
+            Excelência em Limpeza e Facilities
+            <span className="text-primary block mt-1 sm:mt-2">com Padrão Profissional</span>
           </motion.h1>
 
           {/* Tagline */}
@@ -161,7 +161,7 @@ function CoverSlide() {
             className="mt-3 sm:mt-4 md:mt-6 text-xs sm:text-sm md:text-lg text-muted-foreground max-w-2xl leading-relaxed px-2"
             style={{ transform: "translateZ(20px)" }}
           >
-            Transformamos ambientes em experiencias de excelencia, oferecendo solucoes premium 
+            Transformamos ambientes em experiências de excelência, oferecendo soluções premium 
             em limpeza profissional e facilities services.
           </motion.p>
         </motion.div>
@@ -190,7 +190,7 @@ function AboutSlide() {
             >
               <Image
                 src="/images/cleaning-worker.jpeg"
-                alt="Profissional da Haja Clean em acao"
+                alt="Profissional da Haja Clean em ação"
                 fill
                 className="object-cover"
               />
@@ -219,7 +219,7 @@ function AboutSlide() {
               variants={fadeInUp}
               className="text-secondary font-semibold uppercase tracking-widest text-[10px] sm:text-xs"
             >
-              Sobre Nos
+              Sobre Nós
             </motion.span>
             
             <motion.h2 
@@ -227,16 +227,16 @@ function AboutSlide() {
               className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mt-1 sm:mt-2 leading-tight"
             >
               Compromisso com a
-              <span className="text-primary"> Excelencia</span>
+              <span className="text-primary"> Excelência</span>
             </motion.h2>
 
             <motion.p 
               variants={fadeInUp}
               className="mt-3 sm:mt-4 text-muted-foreground text-xs sm:text-sm md:text-base leading-relaxed"
             >
-              A Haja Clean Facilities Services nasceu com a missao de elevar o padrao de 
-              limpeza e conservacao de ambientes. Combinamos profissionalismo, tecnologia 
-              e dedicacao para entregar resultados que superam expectativas.
+              A Haja Clean Facilities Services nasceu com a missão de elevar o padrão de 
+              limpeza e conservação de ambientes. Combinamos profissionalismo, tecnologia 
+              e dedicação para entregar resultados que superam expectativas.
             </motion.p>
 
             <motion.div 
@@ -244,8 +244,8 @@ function AboutSlide() {
               className="mt-4 sm:mt-6 grid grid-cols-2 gap-2 sm:gap-4"
             >
               {[
-                { icon: Shield, text: "Seguranca garantida" },
-                { icon: Award, text: "Padrao premium" },
+                { icon: Shield, text: "Segurança garantida" },
+                { icon: Award, text: "Padrão premium" },
                 { icon: Users, text: "Equipe especializada" },
                 { icon: Zap, text: "Agilidade operacional" }
               ].map((item, i) => (
@@ -270,12 +270,12 @@ function AboutSlide() {
 
 function ServicesSlide() {
   const services = [
-    { icon: Dumbbell, title: "Limpeza de Academias", description: "Higienizacao completa" },
+    { icon: Dumbbell, title: "Limpeza de Academias", description: "Higienização completa" },
     { icon: Layers, title: "Limpeza de Tatames", description: "Tratamento especializado" },
-    { icon: Building2, title: "Limpeza Corporativa", description: "Solucoes empresariais" },
-    { icon: SprayCan, title: "Higienizacao", description: "Sanitizacao avancada" },
-    { icon: Home, title: "Conservacao", description: "Manutencao continua" },
-    { icon: Sparkles, title: "Facilities", description: "Gestao integrada" }
+    { icon: Building2, title: "Limpeza Corporativa", description: "Soluções empresariais" },
+    { icon: SprayCan, title: "Higienização", description: "Sanitização avançada" },
+    { icon: Home, title: "Conservação", description: "Manutenção contínua" },
+    { icon: Sparkles, title: "Facilities", description: "Gestão integrada" }
   ]
 
   return (
@@ -291,13 +291,13 @@ function ServicesSlide() {
             variants={fadeInUp}
             className="text-secondary font-semibold uppercase tracking-widest text-[10px] sm:text-xs"
           >
-            Nossos Servicos
+            Nossos Serviços
           </motion.span>
           <motion.h2 
             variants={fadeInUp}
             className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mt-1 sm:mt-2"
           >
-            Solucoes <span className="text-primary">Premium</span>
+            Soluções <span className="text-primary">Premium</span>
           </motion.h2>
         </motion.div>
 
@@ -336,9 +336,9 @@ function ServicesSlide() {
 
 function GallerySlide() {
   const images = [
-    { src: "/images/gym-floor-clean.jpeg", title: "Pisos Impecaveis" },
+    { src: "/images/gym-floor-clean.jpeg", title: "Pisos Impecáveis" },
     { src: "/images/gym-equipment.jpeg", title: "Equipamentos Higienizados" },
-    { src: "/images/gym-tatame.jpeg", title: "Areas Funcionais" }
+    { src: "/images/gym-tatame.jpeg", title: "Áreas Funcionais" }
   ]
 
   return (
@@ -409,8 +409,8 @@ function DifferentialsSlide() {
     { icon: SprayCan, title: "Produtos Profissionais" },
     { icon: CheckCircle2, title: "Atendimento Personalizado" },
     { icon: Zap, title: "Agilidade Operacional" },
-    { icon: Shield, title: "Tecnologia e Eficiencia" },
-    { icon: Award, title: "Alto Padrao de Qualidade" }
+    { icon: Shield, title: "Tecnologia e Eficiência" },
+    { icon: Award, title: "Alto Padrão de Qualidade" }
   ]
 
   return (
@@ -586,7 +586,7 @@ function BeforeAfterSlide() {
             variants={fadeInUp}
             className="text-secondary font-semibold uppercase tracking-widest text-[10px] sm:text-xs"
           >
-            Transformacao Real
+            Transformação Real
           </motion.span>
           <motion.h2 
             variants={fadeInUp}
@@ -598,7 +598,7 @@ function BeforeAfterSlide() {
             variants={fadeInUp}
             className="mt-2 text-muted-foreground text-xs sm:text-sm max-w-lg mx-auto"
           >
-            Veja a transformacao que realizamos na limpeza de tatames
+            Veja a transformação que realizamos na limpeza de tatames
           </motion.p>
         </motion.div>
 
@@ -655,10 +655,10 @@ function BeforeAfterSlide() {
           className="mt-4 sm:mt-6 text-center"
         >
           <p className="text-foreground font-medium text-sm sm:text-base md:text-lg">
-            Higienizacao profunda que faz a diferenca
+            Higienização profunda que faz a diferença
           </p>
           <p className="text-muted-foreground text-xs sm:text-sm mt-1">
-            Equipamentos e tecnicas especializadas para resultados impecaveis
+            Equipamentos e técnicas especializadas para resultados impecáveis
           </p>
         </motion.div>
       </div>
@@ -668,10 +668,10 @@ function BeforeAfterSlide() {
 
 function ResultsSlide() {
   const results = [
-    "Ambientes mais seguros e saudaveis",
-    "Excelencia em higiene e sanitizacao",
-    "Valorizacao do seu espaco",
-    "Sensacao de bem-estar"
+    "Ambientes mais seguros e saudáveis",
+    "Excelência em higiene e sanitização",
+    "Valorização do seu espaço",
+    "Sensação de bem-estar"
   ]
 
   return (
@@ -690,7 +690,7 @@ function ResultsSlide() {
             </motion.span>
             
             <motion.h2 variants={fadeInUp} className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mt-1 sm:mt-2 leading-tight">
-              O que voce pode<span className="text-primary"> esperar</span>
+              O que você pode<span className="text-primary"> esperar</span>
             </motion.h2>
 
             <motion.div variants={staggerContainer} className="mt-4 sm:mt-6 space-y-3 sm:space-y-4">
@@ -772,8 +772,8 @@ function ClosingSlide() {
           </motion.h2>
 
           <motion.p variants={fadeInUp} className="mt-3 sm:mt-4 text-background/80 text-xs sm:text-sm md:text-base max-w-2xl mx-auto">
-            Entre em contato conosco e descubra como podemos elevar o padrao 
-            de limpeza e conservacao do seu espaco.
+            Entre em contato conosco e descubra como podemos elevar o padrão 
+            de limpeza e conservação do seu espaço.
           </motion.p>
 
           {/* Contact Info */}
@@ -837,14 +837,14 @@ function ClosingSlide() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-semibold text-xs sm:text-sm md:text-base transition-all hover:scale-105 shadow-xl"
             >
-              <span>Solicitar Orcamento</span>
+              <span>Solicitar Orçamento</span>
               <ArrowRight className="w-4 h-4" />
             </a>
           </motion.div>
 
           {/* Footer */}
           <motion.p variants={fadeInUp} className="mt-6 sm:mt-8 text-background/50 text-[10px] sm:text-xs">
-            Haja Clean Facilities Services - Transformando ambientes com excelencia
+            Haja Clean Facilities Services - Transformando ambientes com excelência
           </motion.p>
         </motion.div>
       </div>
@@ -861,7 +861,7 @@ export default function Presentation() {
   const slides = [
     { component: CoverSlide, name: "Capa" },
     { component: AboutSlide, name: "Sobre" },
-    { component: ServicesSlide, name: "Servicos" },
+    { component: ServicesSlide, name: "Serviços" },
     { component: GallerySlide, name: "Galeria" },
     { component: DifferentialsSlide, name: "Diferenciais" },
     { component: ProductsSlide, name: "Produtos" },
