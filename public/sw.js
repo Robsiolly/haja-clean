@@ -1,4 +1,4 @@
-const CACHE_NAME = "haja-clean-v1";
+const CACHE_NAME = "haja-clean-v2";
 const ASSETS = [
   "/",
   "/manifest.json",
