@@ -172,7 +172,7 @@ function CoverSlide() {
 
 function AboutSlide() {
   return (
-    <div className="h-full w-full flex items-center bg-background py-6 md:py-0 overflow-y-auto perspective-1000">
+    <div className="h-full w-full flex items-center bg-background py-10 lg:py-0 overflow-y-auto perspective-1000">
       <div className="container mx-auto px-4 sm:px-6 lg:px-10">
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-12 items-center">
           {/* Image */}
@@ -279,7 +279,7 @@ function ServicesSlide() {
   ]
 
   return (
-    <div className="h-full w-full flex items-center bg-muted py-6 md:py-0 overflow-y-auto perspective-1000">
+    <div className="h-full w-full flex items-center bg-muted py-10 lg:py-0 overflow-y-auto perspective-1000">
       <div className="container mx-auto px-4 sm:px-6 lg:px-10">
         <motion.div
           initial="hidden"
@@ -318,14 +318,14 @@ function ServicesSlide() {
                 z: 20,
                 transition: { duration: 0.3 }
               }}
-              className="group bg-card rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 shadow-sm hover:shadow-lg transition-shadow duration-300 border border-border/50"
+              className="group bg-card rounded-lg sm:rounded-xl p-2.5 sm:p-4 md:p-5 shadow-sm hover:shadow-lg transition-shadow duration-300 border border-border/50"
               style={{ transformStyle: "preserve-3d" }}
             >
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center mb-2 sm:mb-3">
-                <service.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
+              <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center mb-2 sm:mb-3">
+                <service.icon className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary-foreground" />
               </div>
-              <h3 className="text-xs sm:text-sm md:text-base font-bold text-foreground mb-0.5 sm:mb-1 leading-tight">{service.title}</h3>
-              <p className="text-muted-foreground text-[10px] sm:text-xs leading-relaxed">{service.description}</p>
+              <h3 className="text-[11px] sm:text-sm md:text-base font-bold text-foreground mb-0.5 sm:mb-1 leading-tight">{service.title}</h3>
+              <p className="text-muted-foreground text-[9px] sm:text-xs leading-relaxed">{service.description}</p>
             </motion.div>
           ))}
         </motion.div>
@@ -342,7 +342,7 @@ function GallerySlide() {
   ]
 
   return (
-    <div className="h-full w-full flex items-center bg-background py-6 md:py-0 overflow-y-auto perspective-1000">
+    <div className="h-full w-full flex items-center bg-background py-10 lg:py-0 overflow-y-auto perspective-1000">
       <div className="container mx-auto px-4 sm:px-6 lg:px-10">
         <motion.div
           initial="hidden"
@@ -368,7 +368,7 @@ function GallerySlide() {
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
-          className="grid grid-cols-3 gap-2 sm:gap-4 max-w-5xl mx-auto"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-5xl mx-auto"
           style={{ transformStyle: "preserve-3d" }}
         >
           {images.map((image, i) => (
@@ -381,7 +381,7 @@ function GallerySlide() {
                 z: 30
               }}
               transition={{ duration: 0.4 }}
-              className="relative aspect-[3/4] rounded-lg sm:rounded-xl overflow-hidden shadow-lg group"
+              className="relative aspect-[4/3] sm:aspect-[3/4] rounded-lg sm:rounded-xl overflow-hidden shadow-lg group"
               style={{ transformStyle: "preserve-3d" }}
             >
               <Image
@@ -414,7 +414,7 @@ function DifferentialsSlide() {
   ]
 
   return (
-    <div className="h-full w-full flex items-center bg-primary py-6 md:py-0 overflow-y-auto">
+    <div className="h-full w-full flex items-center bg-primary py-10 lg:py-0 overflow-y-auto">
       <div className="container mx-auto px-4 sm:px-6 lg:px-10">
         <motion.div
           initial="hidden"
@@ -448,12 +448,12 @@ function DifferentialsSlide() {
               variants={parallaxItem}
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.2 }}
-              className="bg-primary-foreground/10 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 border border-primary-foreground/20"
+              className="bg-primary-foreground/10 backdrop-blur-sm rounded-lg sm:rounded-xl p-2.5 sm:p-4 md:p-5 border border-primary-foreground/20"
             >
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-primary-foreground/20 flex items-center justify-center mb-2 sm:mb-3">
-                <item.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
+              <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg bg-primary-foreground/20 flex items-center justify-center mb-2 sm:mb-3">
+                <item.icon className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary-foreground" />
               </div>
-              <h3 className="text-xs sm:text-sm md:text-base font-bold text-primary-foreground leading-tight">{item.title}</h3>
+              <h3 className="text-[11px] sm:text-sm md:text-base font-bold text-primary-foreground leading-tight">{item.title}</h3>
             </motion.div>
           ))}
         </motion.div>
@@ -464,7 +464,7 @@ function DifferentialsSlide() {
 
 function BeforeAfterSlide() {
   return (
-    <div className="h-full w-full flex items-center bg-muted py-6 md:py-0 overflow-y-auto">
+    <div className="h-full w-full flex items-center bg-muted py-10 lg:py-0 overflow-y-auto">
       <div className="container mx-auto px-4 sm:px-6 lg:px-10">
         <motion.div
           initial="hidden"
@@ -565,7 +565,7 @@ function ResultsSlide() {
   ]
 
   return (
-    <div className="h-full w-full flex items-center bg-background py-6 md:py-0 overflow-y-auto relative">
+    <div className="h-full w-full flex items-center bg-background py-10 lg:py-0 overflow-y-auto relative">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image src="/images/cleaning-worker.jpeg" alt="Background" fill className="object-cover opacity-10" />
@@ -622,7 +622,7 @@ function ResultsSlide() {
 
 function ClosingSlide() {
   return (
-    <div className="h-full w-full flex items-center bg-gradient-to-br from-foreground via-foreground to-foreground/95 py-6 md:py-0 overflow-y-auto relative perspective-1000">
+    <div className="h-full w-full flex items-center bg-gradient-to-br from-foreground via-foreground to-foreground/95 py-12 lg:py-0 overflow-y-auto relative perspective-1000">
       {/* Decorative elements */}
       <motion.div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
@@ -778,6 +778,16 @@ export default function Presentation() {
       goToSlide(currentSlide - 1)
     }
   }, [currentSlide, goToSlide])
+
+  // Register Service Worker for PWA
+  useEffect(() => {
+    if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/sw.js")
+        .then((reg) => console.log("Service Worker registered successfully:", reg.scope))
+        .catch((err) => console.error("Service Worker registration failed:", err))
+    }
+  }, [])
 
   // Keyboard navigation
   useEffect(() => {

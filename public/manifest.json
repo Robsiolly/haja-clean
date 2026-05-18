@@ -1,0 +1,22 @@
+{
+  "name": "Haja Clean Facilities Services",
+  "short_name": "Haja Clean",
+  "description": "Apresentação Interativa da Haja Clean Facilities Services",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0284c7",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
