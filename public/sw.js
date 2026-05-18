@@ -1,4 +1,4 @@
-const CACHE_NAME = "haja-clean-v4";
+const CACHE_NAME = "haja-clean-v5";
 const ASSETS = [
   "/",
   "/manifest.json",
@@ -21,7 +21,11 @@ const ASSETS = [
   "/images/equipments/eq2.jpg",
   "/images/equipments/eq3.jpg",
   "/images/equipments/eq4.jpg",
-  "/images/equipments/eq5.jpg"
+  "/images/equipments/eq5.jpg",
+  "/images/equipments/eq6.jpg",
+  "/images/equipments/eq7.jpg",
+  "/images/equipments/eq8.jpg",
+  "/images/equipments/eq9.jpg"
 ];
 
 // Install Event

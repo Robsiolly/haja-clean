@@ -435,6 +435,30 @@ function EquipmentsSlide() {
       title: "Carro Multifuncional Premium", 
       badge: "Produtividade",
       desc: "Estação de trabalho robusta com suporte para sacos coletores, bandejas organizadoras e mops integrados." 
+    },
+    { 
+      src: "/images/equipments/eq6.jpg", 
+      title: "Rodo Limpa-Vidros Profissional", 
+      badge: "Vidros",
+      desc: "Rodo com lâmina de borracha macia e cabo extensor de alumínio para limpeza de vidros e vitrines em altura." 
+    },
+    { 
+      src: "/images/equipments/eq7.jpg", 
+      title: "Mop Plano Microfibra", 
+      badge: "Pó",
+      desc: "Mop pó profissional com refil de microfibra de alta atração eletrostática para limpeza rápida de pisos secos." 
+    },
+    { 
+      src: "/images/equipments/eq8.jpg", 
+      title: "Vassoura Limpa-Piso Industrial", 
+      badge: "Varrição",
+      desc: "Vassoura de cerdas mistas de alta resistência com cabo de alumínio para varrição pesada em áreas industriais." 
+    },
+    { 
+      src: "/images/equipments/eq9.jpg", 
+      title: "Balde Espremedor 15L Bralimpia", 
+      badge: "Praticidade",
+      desc: "Balde espremedor individual com rodízios giratórios e sinalização de segurança para mops planos." 
     }
   ]
 
@@ -465,7 +489,7 @@ function EquipmentsSlide() {
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 max-w-7xl mx-auto"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 max-w-7xl mx-auto"
         >
           {equipments.map((eq, i) => (
             <motion.div
