@@ -463,7 +463,7 @@ function EquipmentsSlide() {
   ]
 
   return (
-    <div className="h-full w-full flex items-center bg-primary py-8 lg:py-0 overflow-y-auto">
+    <div className="h-full w-full flex items-start lg:items-center bg-primary py-16 sm:py-20 lg:py-8 overflow-y-auto">
       <div className="container mx-auto px-4 sm:px-6 lg:px-10">
         <motion.div
           initial="hidden"
@@ -562,7 +562,7 @@ function ProductsSlide() {
   ]
 
   return (
-    <div className="h-full w-full flex items-center bg-muted py-10 lg:py-0 overflow-y-auto perspective-1000">
+    <div className="h-full w-full flex items-start lg:items-center bg-muted py-16 sm:py-20 lg:py-8 overflow-y-auto perspective-1000">
       <div className="container mx-auto px-4 sm:px-6 lg:px-10">
         <motion.div
           initial="hidden"
