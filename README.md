@@ -1,35 +1,34 @@
-# v0-haja-clean-presentation
+# Haja Clean Facilities Services — Apresentação Interativa
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
+Este é o repositório da apresentação interativa oficial e profissional da **Haja Clean Facilities Services**.
 
-## Built with v0
+A aplicação foi desenvolvida em **Next.js** com **React**, **TypeScript**, **Tailwind CSS** e **Framer Motion** para fornecer uma experiência de apresentação moderna, fluida e com efeitos 3D parallax.
 
-This repository is linked to a [v0](https://v0.app) project. You can continue developing by visiting the link below -- start new chats to make changes, and v0 will push commits directly to this repo. Every merge to `main` will automatically deploy.
+## 🚀 Como Executar Localmente
 
-[Continue working on v0 →](https://v0.app/chat/projects/prj_MBBKs7MY7Oqm2Hd9dbr40r87B4yT)
+### Pré-requisitos
+Certifique-se de ter o **Node.js** instalado na sua máquina.
 
-## Getting Started
+### Passos
+1. Instale as dependências do projeto:
+   ```bash
+   pnpm install
+   ```
+2. Inicie o servidor de desenvolvimento:
+   ```bash
+   pnpm dev
+   ```
+3. Abra **[http://localhost:3000](http://localhost:3000)** no seu navegador para ver o resultado em tempo real.
 
-First, run the development server:
+## 🎨 Estrutura do Projeto
+- [app/page.tsx](file:///C:/Users/rober/.gemini/antigravity/scratch/v0-haja-clean-presentation/app/page.tsx) — Componente de apresentação principal contendo todos os slides (Capa, Sobre, Serviços, Galeria, Diferenciais, Antes/Depois, Resultados e Contato).
+- [app/layout.tsx](file:///C:/Users/rober/.gemini/antigravity/scratch/v0-haja-clean-presentation/app/layout.tsx) — Layout raiz da aplicação com metadados SEO atualizados.
+- `public/` — Contém imagens, logotipos e recursos estáticos de mídia.
+- `components/ui/` — Componentes reutilizáveis do Shadcn UI para uma interface consistente e premium.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-## Learn More
-
-To learn more, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
-
-<a href="https://v0.app/chat/api/kiro/clone/Robsiolly/v0-haja-clean-presentation" alt="Open in Kiro"><img src="https://pdgvvgmkdvyeydso.public.blob.vercel-storage.com/open%20in%20kiro.svg?sanitize=true" /></a>
+## 🛠️ Tecnologias Utilizadas
+- **Next.js 16** (com suporte a Turbopack)
+- **Framer Motion** (para transições suaves de slides e efeitos 3D)
+- **Tailwind CSS** (estilização rápida e responsiva)
+- **TypeScript** (segurança de tipos)
+- **Lucide Icons** (ícones modernos e consistentes)

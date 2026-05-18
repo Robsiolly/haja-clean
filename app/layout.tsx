@@ -16,22 +16,8 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: 'Haja Clean Facilities Services | Excelência em Limpeza e Facilities',
   description: 'Soluções premium em limpeza de academias, tatames, limpeza corporativa e facilities services. Transformamos ambientes em experiências de excelência.',
-  generator: 'v0.app',
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
+    icon: '/icon.png',
     apple: '/apple-icon.png',
   },
 }
