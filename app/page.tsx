@@ -407,31 +407,31 @@ function GallerySlide() {
 function EquipmentsSlide() {
   const equipments = [
     { 
-      src: "/images/equipments/eq1.png", 
+      src: "/images/equipments/eq1.jpg", 
       title: "Estação de Limpeza Bralimpia", 
       badge: "Mobilidade",
       desc: "Carro funcional completo com balde espremedor duplo, mops profissionais e suporte de sinalização." 
     },
     { 
-      src: "/images/equipments/eq2.png", 
+      src: "/images/equipments/eq2.jpg", 
       title: "Sinalizador de Segurança Bralimpia", 
       badge: "Prevenção",
       desc: "Placa 'Cuidado Piso Molhado' de alta visibilidade para isolamento temporário e prevenção de acidentes." 
     },
     { 
-      src: "/images/equipments/eq3.png", 
+      src: "/images/equipments/eq3.jpg", 
       title: "Placa Atenção Kunber", 
       badge: "Sinalização",
       desc: "Placa profissional de advertência 'Atenção Limpeza em Andamento' para orientação em áreas públicas." 
     },
     { 
-      src: "/images/equipments/eq4.png", 
+      src: "/images/equipments/eq4.jpg", 
       title: "Balde Espremedor Duas Águas", 
       badge: "Eficiência",
       desc: "Sistema de baldes empilháveis (azul e vermelho) para separação de água limpa e suja com alça reforçada." 
     },
     { 
-      src: "/images/equipments/eq5.png", 
+      src: "/images/equipments/eq5.jpg", 
       title: "Carro Multifuncional Premium", 
       badge: "Produtividade",
       desc: "Estação de trabalho robusta com suporte para sacos coletores, bandejas organizadoras e mops integrados." 
